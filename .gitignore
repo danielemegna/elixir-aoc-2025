@@ -22,3 +22,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 elixir_aoc_2025-*.tar
 
+# following AOC authors guidelines, exclude input.txt files
+test/day*/input.txt
