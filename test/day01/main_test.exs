@@ -15,7 +15,14 @@ defmodule Day01.MainTest do
   """
 
   test "solve first part with provided example" do
-    actual = Day01.Main.find_password_for(@provided_example_input)
+    actual = Day01.Main.find_password_for(as_file_stream(@provided_example_input))
     assert actual == 3
+  end
+
+  defp as_file_stream(file_content) do
+    file_content
+    |> String.trim()
+    |> String.split("\n")
+    |> Stream.map(&(&1))
   end
 end
