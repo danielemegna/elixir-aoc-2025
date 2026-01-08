@@ -1,4 +1,6 @@
-defmodule SafeDialTest do
+alias Day01.SafeDial
+
+defmodule Day01.SafeDialTest do
   use ExUnit.Case
 
   test "new safedeal point to 50" do

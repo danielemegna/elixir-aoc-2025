@@ -1,4 +1,6 @@
-defmodule SafeDial do
+alias Day01.SafeDial
+
+defmodule Day01.SafeDial do
   defstruct pointing: 50
 
   def turn(safe_dial = %SafeDial{pointing: p}, {:right, distance}) do
