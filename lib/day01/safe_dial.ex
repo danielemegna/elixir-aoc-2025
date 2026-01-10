@@ -8,13 +8,8 @@ defmodule Day01.SafeDial do
     %{safe_dial | pointing: new_pointing}
   end
 
-  def turn(safe_dial = %SafeDial{pointing: p}, {:left, distance}) when p < distance do
-    new_pointing = p - distance + 100
-    %{safe_dial | pointing: new_pointing}
-  end
-
   def turn(safe_dial = %SafeDial{pointing: p}, {:left, distance}) do
-    new_pointing = p - distance
+    new_pointing = rem(p - rem(distance, 100) + 100, 100)
     %{safe_dial | pointing: new_pointing}
   end
 end

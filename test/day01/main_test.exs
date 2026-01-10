@@ -21,7 +21,7 @@ defmodule Day01.MainTest do
 
   test "solve first part with file" do
     actual = Day01.Main.find_password_for(read_file_stream())
-    assert actual == 969
+    assert actual == 1135
   end
 
   defp as_file_stream(file_content) do
