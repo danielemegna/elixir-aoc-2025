@@ -5,7 +5,10 @@ Solutions for [2025 Advent Of Code challenges](https://adventofcode.com/2025) in
 Challenge solutions are in tests as assertions:
 
 ```elixir
-// TODO
+test "solve first part with file" do
+  actual = Day01.Main.find_password_for(read_file_stream())
+  assert actual == 1135
+end
 ```
 
 > following AOC authors guidelines, input.txt files are not included in the repo
