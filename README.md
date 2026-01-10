@@ -23,3 +23,20 @@ $ docker run --rm -it -v $PWD:/app -w /app elixir:1.19.4-otp-28 bash
 # mix test
 # mix test ./test/day01
 ```
+
+### asdf dev setup
+
+Install needed plugins:
+
+```
+$ asdf plugin add erlang
+$ asdf plugin add elixir
+```
+
+and erlang + elixir relases than:
+
+```
+$ asdf install erlang 28.3
+$ asdf install elixir 1.19.4-otp-28
+$ mix test
+```
