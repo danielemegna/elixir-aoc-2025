@@ -10,8 +10,11 @@ defmodule Day01.Main do
     {zeros_counter, _final_safe_dial} =
       Enum.reduce(rotations, {0, %SafeDial{}}, fn rotation, {zeros_counter, safe_dial} ->
         safe_dial = SafeDial.turn(safe_dial, rotation)
-        zeros_counter = if safe_dial.pointing == 0, do: zeros_counter + 1, else: zeros_counter
-        {zeros_counter, safe_dial}
+
+        case safe_dial.pointing do
+          0 -> {zeros_counter + 1, safe_dial}
+          _ -> {zeros_counter, safe_dial}
+        end
       end)
 
     zeros_counter
