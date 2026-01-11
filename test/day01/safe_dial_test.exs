@@ -76,6 +76,14 @@ defmodule Day01.SafeDialTest do
     test "handle huge right turn" do
       safe_dial = %SafeDial{}
 
+      updated_safe_dial = SafeDial.turn(safe_dial, {:right, 510})
+
+      assert updated_safe_dial.pointing == 50 + 10
+    end
+
+    test "handle huge right turn ending on zero" do
+      safe_dial = %SafeDial{}
+
       updated_safe_dial = SafeDial.turn(safe_dial, {:right, 350})
 
       assert updated_safe_dial.pointing == 0
@@ -84,7 +92,15 @@ defmodule Day01.SafeDialTest do
     test "handle huge left turn" do
       safe_dial = %SafeDial{}
 
-      updated_safe_dial = SafeDial.turn(safe_dial, {:left, 350})
+      updated_safe_dial = SafeDial.turn(safe_dial, {:left, 410})
+
+      assert updated_safe_dial.pointing == 50 - 10
+    end
+
+    test "handle huge left turn ending on zero" do
+      safe_dial = %SafeDial{}
+
+      updated_safe_dial = SafeDial.turn(safe_dial, {:left, 250})
 
       assert updated_safe_dial.pointing == 0
     end
