@@ -147,6 +147,16 @@ defmodule Day01.SafeDialTest do
       assert zero_clicks == 10
     end
 
+    test "huge right turn ending on zero" do
+      safe_dial = %SafeDial{}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:right, 450})
+
+      assert updated_safe_dial.pointing == 0
+      assert zero_clicks == 4 + 1
+    end
+
+
     test "big left turn" do
       safe_dial = %SafeDial{}
 
@@ -163,6 +173,15 @@ defmodule Day01.SafeDialTest do
 
       assert updated_safe_dial.pointing == 50
       assert zero_clicks == 10
+    end
+
+    test "huge left turn ending on zero" do
+      safe_dial = %SafeDial{}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, 550})
+
+      assert updated_safe_dial.pointing == 0
+      assert zero_clicks == 5 + 1
     end
 
   end
