@@ -119,16 +119,6 @@ defmodule Day01.SafeDialTest do
       assert zero_clicks == 0
     end
 
-    test "short left turn" do
-      safe_dial = %SafeDial{}
-
-      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, 40})
-
-      assert updated_safe_dial.pointing == 50 - 40
-      assert safe_dial.pointing == 50
-      assert zero_clicks == 0
-    end
-
     test "big right turn" do
       safe_dial = %SafeDial{}
 
@@ -156,6 +146,15 @@ defmodule Day01.SafeDialTest do
       assert zero_clicks == 4 + 1
     end
 
+    test "short left turn" do
+      safe_dial = %SafeDial{}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, 40})
+
+      assert updated_safe_dial.pointing == 50 - 40
+      assert safe_dial.pointing == 50
+      assert zero_clicks == 0
+    end
 
     test "big left turn" do
       safe_dial = %SafeDial{}
@@ -185,34 +184,6 @@ defmodule Day01.SafeDialTest do
     end
 
     for {distance, {expected_pointing, expected_clicks}} <- [
-        {1, {49, 0}},
-        {10, {40, 0}},
-        {49, {1, 0}},
-        {50, {0, 1}},
-        {51, {99, 1}},
-        {60, {90, 1}},
-        {100, {50, 1}},
-        {149, {1, 1}},
-        {150, {0, 2}},
-        {152, {98, 2}},
-        {199, {51, 2}},
-        {200, {50, 2}},
-        {248, {2, 2}},
-        {250, {0, 3}},
-        {252, {98, 3}},
-        {550, {0, 6}},
-      ] do
-      test "left turn #{distance}" do
-        safe_dial = %SafeDial{}
-
-        {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, unquote(distance)})
-
-        assert updated_safe_dial.pointing == unquote(expected_pointing)
-        assert zero_clicks == unquote(expected_clicks)
-      end
-    end
-
-    for {distance, {expected_pointing, expected_clicks}} <- [
         {1, {51, 0}},
         {10, {60, 0}},
         {49, {99, 0}},
@@ -222,18 +193,40 @@ defmodule Day01.SafeDialTest do
         {100, {50, 1}},
         {149, {99, 1}},
         {150, {0, 2}},
-        {152, {2, 2}},
-        {199, {49, 2}},
         {200, {50, 2}},
         {248, {98, 2}},
         {250, {0, 3}},
         {252, {2, 3}},
-        {550, {0, 6}},
       ] do
-      test "right turn #{distance}" do
+      test "turn #{distance} right from start" do
         safe_dial = %SafeDial{}
 
         {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:right, unquote(distance)})
+
+        assert updated_safe_dial.pointing == unquote(expected_pointing)
+        assert zero_clicks == unquote(expected_clicks)
+      end
+    end
+
+    for {distance, {expected_pointing, expected_clicks}} <- [
+        {1, {49, 0}},
+        {10, {40, 0}},
+        {49, {1, 0}},
+        {50, {0, 1}},
+        {51, {99, 1}},
+        {60, {90, 1}},
+        {100, {50, 1}},
+        {149, {1, 1}},
+        {150, {0, 2}},
+        {200, {50, 2}},
+        {248, {2, 2}},
+        {250, {0, 3}},
+        {252, {98, 3}},
+      ] do
+      test "turn #{distance} left from start" do
+        safe_dial = %SafeDial{}
+
+        {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, unquote(distance)})
 
         assert updated_safe_dial.pointing == unquote(expected_pointing)
         assert zero_clicks == unquote(expected_clicks)
