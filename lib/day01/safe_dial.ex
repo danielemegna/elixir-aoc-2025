@@ -17,7 +17,11 @@ defmodule Day01.SafeDial do
         :left -> rem(safe_dial.pointing + 100 - distance_rem, 100)
       end
 
-    zero_clicks = div(safe_dial.pointing + distance, 100)
+    zero_clicks = div(distance, 100) +
+      case direction do
+        :right -> div(safe_dial.pointing + distance_rem, 100)
+        :left -> div(rem(100 - safe_dial.pointing, 100) + distance_rem, 100)
+      end
 
     updated_safe_dial = %{safe_dial | pointing: new_pointing}
     {updated_safe_dial, zero_clicks}

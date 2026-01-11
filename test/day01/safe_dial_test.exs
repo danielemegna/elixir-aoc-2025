@@ -119,6 +119,25 @@ defmodule Day01.SafeDialTest do
       assert zero_clicks == 0
     end
 
+    test "short right turn starting from 5 should count the zero click" do
+      safe_dial = %SafeDial{pointing: 95}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:right, 10})
+
+      assert updated_safe_dial.pointing == 5
+      assert zero_clicks == 1
+    end
+
+    test "short right turn starting from 0 should not count the zero click" do
+      safe_dial = %SafeDial{pointing: 0}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:right, 3})
+
+      assert updated_safe_dial.pointing == 3
+      assert zero_clicks == 0
+    end
+
+
     test "big right turn" do
       safe_dial = %SafeDial{}
 
@@ -153,6 +172,24 @@ defmodule Day01.SafeDialTest do
 
       assert updated_safe_dial.pointing == 50 - 40
       assert safe_dial.pointing == 50
+      assert zero_clicks == 0
+    end
+
+    test "short left turn starting from 5 should count the zero click" do
+      safe_dial = %SafeDial{pointing: 5}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, 10})
+
+      assert updated_safe_dial.pointing == 95
+      assert zero_clicks == 1
+    end
+
+    test "short left turn starting from 0 should not count the zero click" do
+      safe_dial = %SafeDial{pointing: 0}
+
+      {updated_safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, {:left, 2})
+
+      assert updated_safe_dial.pointing == 98
       assert zero_clicks == 0
     end
 
