@@ -26,15 +26,11 @@ defmodule Day01.Main do
       |> Enum.map(fn line -> Rotation.parse(line) end)
 
     {zeros_counter, _final_safe_dial} =
-      Enum.reduce(rotations, {0, %SafeDial{}}, fn rotation, {zeros_counter, safe_dial} ->
-        safe_dial = SafeDial.turn(safe_dial, rotation)
-
-        case safe_dial.pointing do
-          0 -> {zeros_counter + 1, safe_dial}
-          _ -> {zeros_counter, safe_dial}
-        end
+      Enum.reduce(rotations, {0, %SafeDial{}}, fn rotation, {total_zero_clicks, safe_dial} ->
+        {safe_dial, zero_clicks} = SafeDial.turn_getting_zero_clicks(safe_dial, rotation)
+        {total_zero_clicks + zero_clicks, safe_dial}
       end)
 
-    zeros_counter + 3
+    zeros_counter
   end
 end
