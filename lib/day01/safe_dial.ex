@@ -9,16 +9,18 @@ defmodule Day01.SafeDial do
   end
 
   def turn_getting_zero_clicks(safe_dial = %SafeDial{}, {direction, distance}) do
+    distance_rem = rem(distance, 100)
+
     new_pointing =
       case direction do
-        :right -> rem(safe_dial.pointing + distance, 100)
-        :left -> rem(safe_dial.pointing + 100 - distance, 100)
+        :right -> rem(safe_dial.pointing + distance_rem, 100)
+        :left -> rem(safe_dial.pointing + 100 - distance_rem, 100)
       end
 
     zero_clicks =
       case direction do
         :right -> div(safe_dial.pointing + distance, 100)
-        :left -> 0
+        :left -> div(safe_dial.pointing + distance, 100)
       end
 
     updated_safe_dial = %{safe_dial | pointing: new_pointing}
