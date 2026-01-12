@@ -4,26 +4,29 @@ defmodule Day01.SafeDial do
   defstruct pointing: 50
 
   def turn(safe_dial = %SafeDial{}, rotation) do
-    {updated_safe_dial, _zero_clicks} = turn_getting_zero_clicks(safe_dial, rotation)
-    updated_safe_dial
+    {new_safe_dial, _zero_clicks} = turn_getting_zero_clicks(safe_dial, rotation)
+    new_safe_dial
   end
 
-  def turn_getting_zero_clicks(safe_dial = %SafeDial{}, {direction, distance}) do
-    distance_rem = rem(distance, 100)
+  def turn_getting_zero_clicks(safe_dial = %SafeDial{}, {:right, distance}) do
+    new_pointing = safe_dial.pointing + distance
+    zero_clicks = div(new_pointing, 100)
+    new_pointing = rem(new_pointing, 100)
 
-    new_pointing =
-      case direction do
-        :right -> rem(safe_dial.pointing + distance_rem, 100)
-        :left -> rem(safe_dial.pointing + 100 - distance_rem, 100)
-      end
+    {
+      %SafeDial{safe_dial | pointing: new_pointing},
+      zero_clicks
+    }
+  end
 
-    zero_clicks = div(distance, 100) +
-      case direction do
-        :right -> div(safe_dial.pointing + distance_rem, 100)
-        :left -> div(rem(100 - safe_dial.pointing, 100) + distance_rem, 100)
-      end
+  def turn_getting_zero_clicks(safe_dial = %SafeDial{}, {:left, distance}) do
+    mirrored = mirror(safe_dial)
+    {new_mirrored, zero_clicks} = turn_getting_zero_clicks(mirrored, {:right, distance})
 
-    updated_safe_dial = %{safe_dial | pointing: new_pointing}
-    {updated_safe_dial, zero_clicks}
+    {mirror(new_mirrored), zero_clicks}
+  end
+
+  defp mirror(safe_dial = %SafeDial{}) do
+    %SafeDial{safe_dial | pointing: rem(100 - safe_dial.pointing, 100)}
   end
 end
