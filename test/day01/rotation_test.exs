@@ -1,7 +1,6 @@
 alias Day01.Rotation
 
 defmodule Day01.RotationTest do
-  alias Day01.Rotation
   use ExUnit.Case
 
   test "parse a left rotation" do
