@@ -12,7 +12,7 @@ defmodule Day02.IDsRangeTest do
 
   test "single invalid id" do
     assert IDsRange.invalid_in({95, 115}) == [99]
-    #assert IDsRange.invalid_in({998, 1012}) == [1010]
+    assert IDsRange.invalid_in({998, 1012}) == [1010]
     assert IDsRange.invalid_in({222_220, 222_224}) == [222_222]
   end
 end
