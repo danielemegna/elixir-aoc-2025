@@ -15,4 +15,25 @@ defmodule Day02.IDsRangeTest do
     assert IDsRange.invalid_in({998, 1012}) == [1010]
     assert IDsRange.invalid_in({222_220, 222_224}) == [222_222]
   end
+
+  @tag :skip
+  test "two invalid ids" do
+    assert IDsRange.invalid_in({11, 22}) == [11, 22]
+    assert IDsRange.invalid_in({373_900, 376_100}) == [374_374, 375_375]
+  end
+
+  @tag :skip
+  test "lot of invalid ids" do
+    expected_subset = [
+      229229, 330330, 331331, 332332, 333333, 334334,
+      335335, 336336, 337337, 338338, 339339, 340340,
+      # more ..
+      351351, 352352, 353353, 354354, 355355, 356356
+    ]
+
+    actual = IDsRange.invalid_in({229453, 357173})
+
+    # TODO evaluate https://hexdocs.pm/assertions/
+    assert Enum.all?(expected_subset, fn element -> element in actual end)
+  end
 end
