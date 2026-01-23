@@ -16,9 +16,9 @@ defmodule Day02.IDsRangeTest do
     assert IDsRange.invalid_in({222_220, 222_224}) == [222_222]
   end
 
-  @tag :skip
   test "two invalid ids" do
     assert IDsRange.invalid_in({11, 22}) == [11, 22]
+    assert IDsRange.invalid_in({374_100, 375_900}) == [374_374, 375_375]
     assert IDsRange.invalid_in({373_900, 376_100}) == [374_374, 375_375]
   end
 
