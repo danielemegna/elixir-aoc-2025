@@ -2,6 +2,7 @@ alias Day02.IDsRange
 
 defmodule Day02.IDsRangeTest do
   use ExUnit.Case
+  import TestHelper
 
   test "no invalid ids" do
     assert IDsRange.invalid_in({11_238, 11_896}) == []
@@ -17,9 +18,9 @@ defmodule Day02.IDsRangeTest do
   end
 
   test "two invalid ids" do
-    assert IDsRange.invalid_in({11, 22}) == [11, 22]
-    assert IDsRange.invalid_in({374_100, 375_900}) == [374_374, 375_375]
-    assert IDsRange.invalid_in({373_900, 376_100}) == [374_374, 375_375]
+    assert_lists_equal IDsRange.invalid_in({11, 22}), [11, 22]
+    assert_lists_equal IDsRange.invalid_in({374_100, 375_900}), [374_374, 375_375]
+    assert_lists_equal IDsRange.invalid_in({373_900, 376_100}), [374_374, 375_375]
   end
 
   @tag :skip
@@ -33,7 +34,6 @@ defmodule Day02.IDsRangeTest do
 
     actual = IDsRange.invalid_in({229453, 357173})
 
-    # TODO evaluate https://hexdocs.pm/assertions/
-    assert Enum.all?(expected_subset, fn element -> element in actual end)
+    assert_list_contains(actual, expected_subset)
   end
 end
