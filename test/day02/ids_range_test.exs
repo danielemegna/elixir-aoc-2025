@@ -34,17 +34,24 @@ defmodule Day02.IDsRangeTest do
     )
   end
 
-  @tag :skip
   test "lot of invalid ids" do
-    expected_subset = [
-      229229, 330330, 331331, 332332, 333333, 334334,
-      335335, 336336, 337337, 338338, 339339, 340340,
-      # more ..
-      351351, 352352, 353353, 354354, 355355, 356356
-    ]
-
-    actual = IDsRange.invalid_in({229453, 357173})
-
-    assert_list_contains(actual, expected_subset)
+    assert_list_contains(
+      IDsRange.invalid_in({229453, 357173}),
+      [
+        330330, 331331, 332332, 333333, 334334,
+        335335, 336336, 337337, 338338, 339339, 340340,
+        # more ..
+        351351, 352352, 353353, 354354, 355355, 356356,
+      ]
+    )
+    assert_list_contains(
+      IDsRange.invalid_in({4526, 8370}),
+      [
+        4545, 4646, 4747, 4848, 4949,
+        5050, 5151, 5252, 5353, 5454,
+        # more ..
+        7878, 7979, 8080, 8181, 8282,
+      ]
+    )
   end
 end
