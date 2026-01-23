@@ -10,10 +10,9 @@ defmodule Day02.MainTest do
     assert actual == 1227775554
   end
 
-  @tag :skip
   test "solve first part with file" do
     actual = Day02.Main.invalid_ids_sum(read_file_stream())
-    assert actual == -1
+    assert actual == 30323879646
   end
 
   defp as_file_stream(file_content) do
