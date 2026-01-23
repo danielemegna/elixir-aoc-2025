@@ -23,6 +23,17 @@ defmodule Day02.IDsRangeTest do
     assert_lists_equal IDsRange.invalid_in({373_900, 376_100}), [374_374, 375_375]
   end
 
+  test "five invalid ids" do
+    assert_lists_equal(
+      IDsRange.invalid_in({900, 1500}),
+      [ 1010, 1111, 1212, 1313, 1414 ]
+    )
+    assert_lists_equal(
+      IDsRange.invalid_in({374_000, 378_900}),
+      [ 374_374, 375_375, 376_376, 377_377, 378_378 ]
+    )
+  end
+
   @tag :skip
   test "lot of invalid ids" do
     expected_subset = [
