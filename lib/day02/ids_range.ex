@@ -1,36 +1,26 @@
 defmodule Day02.IDsRange do
   def invalid_in({from, to}) do
-    found_from_start = invalid_ids_from_the_start({from, to})
-
-    case found_from_start do
-      [] -> invalid_ids_from_the_end({from, to})
-      _ -> found_from_start
-    end
-  end
-
-  defp invalid_ids_from_the_start({from, to}) do
     from_str = Integer.to_string(from)
-    from_digits = String.length(from_str)
+    to_str = Integer.to_string(to)
 
-    if(rem(from_digits, 2) != 0) do
-      []
-    else
-      half_index = div(from_digits, 2)
-      {half_str, _} = String.split_at(from_str, half_index)
-      invalid_with_half_from_start(half_str, {from, to})
+    cond do
+      rem(String.length(from_str), 2) == 0 ->
+        find_invalid_ids_with(from_str, {from, to}, :forward)
+
+      rem(String.length(to_str), 2) == 0 ->
+        find_invalid_ids_with(to_str, {from, to}, :backward)
+
+      true ->
+        []
     end
   end
 
-  defp invalid_ids_from_the_end({from, to}) do
-    to_str = Integer.to_string(to)
-    to_digits = String.length(to_str)
+  defp find_invalid_ids_with(value_str, {from, to}, direction) do
+    half_string = half_string_of(value_str)
 
-    if(rem(to_digits, 2) != 0) do
-      []
-    else
-      half_index = div(to_digits, 2)
-      {half_str, _} = String.split_at(to_str, half_index)
-      invalid_with_half_from_end(half_str, {from, to})
+    case direction do
+      :forward -> invalid_with_half_from_start(half_string, {from, to})
+      :backward -> invalid_with_half_from_end(half_string, {from, to})
     end
   end
 
@@ -58,5 +48,12 @@ defmodule Day02.IDsRange do
       next_half = Integer.to_string(half_int - 1)
       found ++ invalid_with_half_from_end(next_half, {from, to})
     end
+  end
+
+  defp half_string_of(string) do
+    digits = String.length(string)
+    half_index = div(digits, 2)
+    {half_string, _} = String.split_at(string, half_index)
+    half_string
   end
 end
