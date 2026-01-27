@@ -1,8 +1,11 @@
 defmodule Day02.IDsRange do
   def invalid_in({from, to}) do
-    (invalid_ids_from_the_start({from, to})
-    ++ invalid_ids_from_the_end({from, to}))
-    |> Enum.uniq()
+    found_from_start = invalid_ids_from_the_start({from, to})
+
+    case found_from_start do
+      [] -> invalid_ids_from_the_end({from, to})
+      _ -> found_from_start
+    end
   end
 
   defp invalid_ids_from_the_start({from, to}) do
@@ -37,7 +40,7 @@ defmodule Day02.IDsRange do
     if candidate > to do
       []
     else
-      found = if candidate > from, do: [candidate], else: []
+      found = if candidate >= from, do: [candidate], else: []
       half_int = String.to_integer(half_str)
       next_half = Integer.to_string(half_int + 1)
       found ++ invalid_with_half_from_start(next_half, {from, to})
@@ -50,7 +53,7 @@ defmodule Day02.IDsRange do
     if candidate < from do
       []
     else
-      found = if candidate < to, do: [candidate], else: []
+      found = if candidate <= to, do: [candidate], else: []
       half_int = String.to_integer(half_str)
       next_half = Integer.to_string(half_int - 1)
       found ++ invalid_with_half_from_end(next_half, {from, to})
