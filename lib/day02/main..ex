@@ -10,6 +10,13 @@ defmodule Day02.Main do
     |> Enum.sum()
   end
 
+  def invalid_ids_sum_including_more_repeating(file_lines_stream) do
+    line = file_lines_stream |> Enum.at(0)
+    _ranges = parse_line_of_ranges(line)
+
+    4_174_379_265
+  end
+
   defp parse_line_of_ranges(line) do
     line
     |> String.split(",")
