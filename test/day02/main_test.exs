@@ -1,3 +1,5 @@
+alias Day02.Main
+
 defmodule Day02.MainTest do
   use ExUnit.Case
 
@@ -6,13 +8,24 @@ defmodule Day02.MainTest do
                             "824824821-824824827,2121212118-2121212124"
 
   test "solve first part with provided example" do
-    actual = Day02.Main.invalid_ids_sum(as_file_stream(@provided_example_input))
-    assert actual == 1227775554
+    actual = Main.invalid_ids_sum(as_file_stream(@provided_example_input))
+    assert actual == 1_227_775_554
   end
 
   test "solve first part with file" do
-    actual = Day02.Main.invalid_ids_sum(read_file_stream())
-    assert actual == 30323879646
+    actual = Main.invalid_ids_sum(read_file_stream())
+    assert actual == 30_323_879_646
+  end
+
+  test "solve second part with provided example" do
+    actual = Main.invalid_ids_sum_including_more_repeating(as_file_stream(@provided_example_input))
+    assert actual == 4_174_379_265
+  end
+
+  @tag :skip
+  test "solve second part with file" do
+    actual = Main.invalid_ids_sum_including_more_repeating(read_file_stream())
+    assert actual == -1
   end
 
   defp as_file_stream(file_content) do
