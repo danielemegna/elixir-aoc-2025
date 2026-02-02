@@ -7,7 +7,8 @@ defmodule TestHelper do
     missing = to_contain -- list
 
     assert missing == [],
-           "Expected elements #{inspect(missing)} to be present in #{inspect(list)} collection."
+           "Expected elements #{inspect(missing, charlists: :as_list)} " <>
+           "to be present in #{inspect(list, charlists: :as_list)} collection."
   end
 
   def assert_lists_equal(first, second) do
