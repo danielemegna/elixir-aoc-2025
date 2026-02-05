@@ -13,6 +13,9 @@ defmodule TestHelper do
 
   def assert_lists_equal(first, second) do
     assert_list_contains(first, second)
-    assert_list_contains(second, first)
+    assert Enum.count(first) == Enum.count(second),
+      "Lists have different sizes:\n" <>
+      " - #{inspect(first, charlists: :as_list)}\n" <>
+      " - #{inspect(second, charlists: :as_list)}"
   end
 end
