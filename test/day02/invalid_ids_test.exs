@@ -14,9 +14,12 @@ defmodule Day02.InvalidIDsTest do
 
   test "different number of digits in range" do
     assert_lists_equal(InvalidIDs.find_for({90, 150}), [99, 111])
-    #assert_lists_equal(InvalidIDs.find_for({880, 12000}), [
-    #  888, 999, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 11111
-    #])
+    assert_list_contains(InvalidIDs.find_for({880, 12000}), [
+      888, 999, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 11111
+    ])
+    assert_list_contains(InvalidIDs.find_for({880, 12000}), [
+      1010, 1111, 1212, 1313, 1414, 1515, 1616, 2020, 2121
+    ])
   end
 
 end
