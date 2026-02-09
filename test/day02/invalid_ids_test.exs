@@ -30,4 +30,11 @@ defmodule Day02.InvalidIDsTest do
     assert_lists_equal(InvalidIDs.find_for({2121212118, 2121212124}), [2121212121])
   end
 
+  test "do not return duplicated ids" do
+    assert_lists_equal(InvalidIDs.find_for({784, 1207}), [888, 999, 1010, 1111])
+    assert_lists_equal(InvalidIDs.find_for({3095, 4389}), [
+      3131, 3232, 3333, 3434, 3535, 3636, 3737, 3838, 3939, 4040, 4141, 4242, 4343
+    ])
+  end
+
 end

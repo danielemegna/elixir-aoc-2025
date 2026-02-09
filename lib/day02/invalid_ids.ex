@@ -8,12 +8,13 @@ defmodule Day02.InvalidIDs do
     half = ceil(to_str_length / 2)
 
     padded_from_str = from_str |> String.pad_leading(to_str_length, "0")
-    Enum.reduce(1..half, [], fn chunk_size, invalid_ids ->
+    invalid_ids = Enum.reduce(1..half, [], fn chunk_size, invalid_ids ->
       chunk = padded_from_str |> String.split_at(chunk_size) |> elem(0) |> String.to_integer()
       limit = to_str |> String.split_at(chunk_size) |> elem(0) |> String.to_integer()
       invalid_ids ++ find_with(chunk, 2, limit, {from, to})
     end)
 
+    Enum.uniq(invalid_ids)
   end
 
   defp find_with(chunk, repetition, limit, {from, to}) do

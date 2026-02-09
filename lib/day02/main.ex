@@ -17,7 +17,6 @@ defmodule Day02.Main do
 
     ranges
     |> Enum.flat_map(&InvalidIDs.find_for(&1))
-    |> Enum.uniq()
     |> Enum.sum()
   end
 
