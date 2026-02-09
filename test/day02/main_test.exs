@@ -22,10 +22,9 @@ defmodule Day02.MainTest do
     assert actual == 4_174_379_265
   end
 
-  @tag :skip
   test "solve second part with file" do
     actual = Main.invalid_ids_sum_including_more_repeating(read_file_stream())
-    assert actual == -1
+    assert actual == 43872163557
   end
 
   defp as_file_stream(file_content) do
