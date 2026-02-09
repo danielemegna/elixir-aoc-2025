@@ -1,55 +1,40 @@
 defmodule Day02.IDsRange do
 
   def invalid_in({from, to}) do
-    from_str = Integer.to_string(from)
-    to_str = Integer.to_string(to)
+    from_str = from |> Integer.to_string()
+    to_str = to |> Integer.to_string()
+    to_str_length = String.length(to_str)
+
+    half = ceil(to_str_length / 2)
+
+    padded_from_str = from_str |> String.pad_leading(to_str_length, "0")
+    invalid_ids = Enum.reduce(1..half, [], fn chunk_size, invalid_ids ->
+      chunk = padded_from_str |> String.split_at(chunk_size) |> elem(0) |> String.to_integer()
+      limit = to_str |> String.split_at(chunk_size) |> elem(0) |> String.to_integer()
+      invalid_ids ++ find_with(chunk, 2, limit, {from, to})
+    end)
+
+    Enum.uniq(invalid_ids)
+  end
+
+  defp find_with(chunk, repetition, limit, {from, to}) do
+    candidate = chunk
+      |> Integer.to_string()
+      |> String.duplicate(repetition)
+      |> String.to_integer()
 
     cond do
-      rem(String.length(from_str), 2) == 0 ->
-        find_invalid_ids_with(from_str, {from, to}, :forward)
-      rem(String.length(to_str), 2) == 0 ->
-        find_invalid_ids_with(to_str, {from, to}, :backward)
+      candidate == 0 ->
+        find_with(chunk+1, 2, limit, {from, to})
+      in_range(candidate, {from, to}) ->
+        [candidate | find_with(chunk+1, 2, limit, {from, to})]
+      chunk < limit ->
+        find_with(chunk+1, 2, limit, {from, to})
       true ->
         []
     end
   end
 
-  defp find_invalid_ids_with(value_str, {from, to}, direction) do
-    half_integer = value_str
-      |> half_string_of()
-      |> String.to_integer()
-
-    find_invalid_ids_with_half(half_integer, {from, to}, direction)
-  end
-
-  defp find_invalid_ids_with_half(half_integer, {from, to}, direction) do
-    candidate = integer_doubling(half_integer)
-
-    case direction do
-      :forward when candidate > to -> []
-      :backward when candidate < from -> []
-      _ ->
-        found = if in_range(candidate, {from, to}), do: [candidate], else: []
-        next_half = case direction do
-          :forward -> half_integer + 1
-          :backward -> half_integer - 1
-        end
-        found ++ find_invalid_ids_with_half(next_half, {from, to}, direction)
-    end
-  end
-
   defp in_range(value, {from, to}), do: value >= from and value <= to
-
-  defp half_string_of(string) do
-    digits = String.length(string)
-    half_index = div(digits, 2)
-    {half_string, _} = String.split_at(string, half_index)
-    half_string
-  end
-
-  defp integer_doubling(int) do
-    str = Integer.to_string(int)
-    String.to_integer(str <> str)
-  end
 
 end
