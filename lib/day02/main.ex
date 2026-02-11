@@ -1,5 +1,4 @@
 alias Day02.IDsRange
-alias Day02.InvalidIDs
 
 defmodule Day02.Main do
   def invalid_ids_sum(file_lines_stream) do
@@ -7,7 +6,7 @@ defmodule Day02.Main do
     ranges = parse_line_of_ranges(line)
 
     ranges
-    |> Enum.flat_map(&IDsRange.invalid_in(&1))
+    |> Enum.flat_map(&IDsRange.invalid_in(&1, :single_repetition))
     |> Enum.sum()
   end
 
@@ -16,7 +15,7 @@ defmodule Day02.Main do
     ranges = parse_line_of_ranges(line)
 
     ranges
-    |> Enum.flat_map(&InvalidIDs.find_for(&1))
+    |> Enum.flat_map(&IDsRange.invalid_in(&1, :more_repetitions))
     |> Enum.sum()
   end
 

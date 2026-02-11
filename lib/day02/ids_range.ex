@@ -1,6 +1,6 @@
 defmodule Day02.IDsRange do
 
-  def invalid_in({from, to}, mode \\ :single_repetition) do
+  def invalid_in({from, to}, mode) do
     from_str = from |> Integer.to_string()
     to_str = to |> Integer.to_string()
     to_str_length = String.length(to_str)
