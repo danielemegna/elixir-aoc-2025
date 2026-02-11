@@ -27,21 +27,15 @@ defmodule Day02.IDsRange do
       |> String.duplicate(repetitions)
       |> String.to_integer()
 
+    invalid_ids = if in_range(candidate, {from, to}), do: [candidate], else: []
+
     cond do
-      candidate == 0 ->
-        find_with(number_to_repeat+1, max_number, 2, max_repetitions, {from, to})
-      candidate < from and repetitions < max_repetitions ->
-        find_with(number_to_repeat, max_number, repetitions+1, max_repetitions, {from, to})
-      in_range(candidate, {from, to}) ->
-        if repetitions < max_repetitions do
-          [candidate | find_with(number_to_repeat, max_number, repetitions+1, max_repetitions, {from, to})]
-        else
-          [candidate | find_with(number_to_repeat+1, max_number, 2, max_repetitions, {from, to})]
-        end
-      number_to_repeat < max_number ->
-        find_with(number_to_repeat+1, max_number, 2, max_repetitions, {from, to})
+      number_to_repeat > max_number ->
+        invalid_ids
+      repetitions < max_repetitions ->
+        invalid_ids ++ find_with(number_to_repeat, max_number, repetitions+1, max_repetitions, {from, to})
       true ->
-        []
+        invalid_ids ++ find_with(number_to_repeat+1, max_number, 2, max_repetitions, {from, to})
     end
   end
 
