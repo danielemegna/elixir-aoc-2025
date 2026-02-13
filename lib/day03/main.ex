@@ -2,7 +2,7 @@ alias Day03.Bank
 
 defmodule Day03.Main do
 
-  def sum_of_the_maximum_joltage_for_banks(file_lines_stream) do
+  def sum_of_the_maximum_joltage_for_banks(file_lines_stream, _mode) do
     file_lines_stream
     |> Stream.map(fn line -> to_battery_bank_array(line) end)
     |> Stream.map(fn batteries -> Bank.calculate_largest_joltage(batteries) end)

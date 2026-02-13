@@ -9,13 +9,25 @@ defmodule Day03.MainTest do
   """
 
   test "solve first part with provided example" do
-    actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(as_file_stream(@provided_example_input))
+    actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(as_file_stream(@provided_example_input), :two_batteries)
     assert actual == 98 + 89 + 78 + 92
   end
 
   test "solve first part with file" do
-    actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(read_file_stream())
+    actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(read_file_stream(), :two_batteries)
     assert actual == 17031
+  end
+
+  @tag :skip
+  test "solve second part with provided example" do
+    actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(as_file_stream(@provided_example_input), :twelve_batteries)
+    assert actual == 987654321111 + 811111111119 + 434234234278 + 888911112111
+  end
+
+  @tag :skip
+  test "solve second part with file" do
+    actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(read_file_stream(), :twelve_batteries)
+    assert actual == -1
   end
 
   defp as_file_stream(file_content) do
