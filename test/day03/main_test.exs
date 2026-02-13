@@ -13,10 +13,9 @@ defmodule Day03.MainTest do
     assert actual == 98 + 89 + 78 + 92
   end
 
-  @tag :skip
   test "solve first part with file" do
     actual = Day03.Main.sum_of_the_maximum_joltage_for_banks(read_file_stream())
-    assert actual == -1
+    assert actual == 17031
   end
 
   defp as_file_stream(file_content) do
