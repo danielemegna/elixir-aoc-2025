@@ -3,7 +3,7 @@ alias Day03.Bank
 defmodule Day03.BankTest do
   use ExUnit.Case
 
-  describe "calculate largest joltage" do
+  describe "calculate largest two-digits joltage" do
 
     test "with two batteries is just their concatenation" do
       assert Bank.calculate_largest_joltage([1, 1]) == 11
@@ -33,6 +33,14 @@ defmodule Day03.BankTest do
       assert Bank.calculate_largest_joltage([8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9]) == 89
       assert Bank.calculate_largest_joltage([2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 7, 8]) == 78
       assert Bank.calculate_largest_joltage([8, 1, 8, 1, 8, 1, 9, 1, 1, 1, 1, 2, 1, 1, 1]) == 92
+    end
+
+  end
+
+  describe "calculate largest twelve-digits joltage" do
+
+    test "with provided examples" do
+      assert Bank.calculate_largest_joltage([9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1], 12) == 987654321111
     end
 
   end
