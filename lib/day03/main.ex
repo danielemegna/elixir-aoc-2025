@@ -2,10 +2,14 @@ alias Day03.Bank
 
 defmodule Day03.Main do
 
-  def sum_of_the_maximum_joltage_for_banks(file_lines_stream, _mode) do
+  def sum_of_the_maximum_joltage_for_banks(file_lines_stream, mode) do
+    number_of_batteries_to_turn_on = case mode do
+      :two_batteries -> 2
+      :twelve_batteries -> 12
+    end
     file_lines_stream
     |> Stream.map(fn line -> to_battery_bank_array(line) end)
-    |> Stream.map(fn batteries -> Bank.calculate_largest_joltage(batteries) end)
+    |> Stream.map(fn batteries -> Bank.calculate_largest_joltage(batteries, number_of_batteries_to_turn_on) end)
     |> Enum.sum()
   end
 
