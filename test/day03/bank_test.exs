@@ -29,10 +29,10 @@ defmodule Day03.BankTest do
     end
 
     test "with provided examples" do
-      assert Bank.calculate_largest_joltage([9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1]) == 98
-      assert Bank.calculate_largest_joltage([8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9]) == 89
-      assert Bank.calculate_largest_joltage([2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 7, 8]) == 78
-      assert Bank.calculate_largest_joltage([8, 1, 8, 1, 8, 1, 9, 1, 1, 1, 1, 2, 1, 1, 1]) == 92
+      assert Bank.calculate_largest_joltage([9,8,7,6,5,4,3,2,1,1,1,1,1,1,1]) == 98
+      assert Bank.calculate_largest_joltage([8,1,1,1,1,1,1,1,1,1,1,1,1,1,9]) == 89
+      assert Bank.calculate_largest_joltage([2,3,4,2,3,4,2,3,4,2,3,4,2,7,8]) == 78
+      assert Bank.calculate_largest_joltage([8,1,8,1,8,1,9,1,1,1,1,2,1,1,1]) == 92
     end
 
   end
@@ -40,7 +40,9 @@ defmodule Day03.BankTest do
   describe "calculate largest twelve-digits joltage" do
 
     test "with provided examples" do
-      assert Bank.calculate_largest_joltage([9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1], 12) == 987654321111
+      assert Bank.calculate_largest_joltage([9,8,7,6,5,4,3,2,1,1,1,1,1,1,1], 12) == 987654321111
+      assert Bank.calculate_largest_joltage([2,3,4,2,3,4,2,3,4,2,3,4,2,7,8], 12) == 434234234278
+      assert Bank.calculate_largest_joltage([8,1,8,1,8,1,9,1,1,1,1,2,1,1,1], 12) == 888911112111
     end
 
   end
