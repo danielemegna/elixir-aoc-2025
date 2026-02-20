@@ -17,7 +17,7 @@ defmodule Day04.MainTest do
   """
 
   test "solve first part with provided example" do
-    actual = Main.accessible_rolls_of_paper_in(as_file_stream(@provided_example_input))
+    actual = Main.accessible_rolls_of_paper_in(provided_example_input_stream())
     assert actual == 13
   end
 
@@ -26,6 +26,8 @@ defmodule Day04.MainTest do
     actual = Main.accessible_rolls_of_paper_in(read_file_stream())
     assert actual == -1
   end
+
+  def provided_example_input_stream(), do: as_file_stream(@provided_example_input)
 
   defp as_file_stream(file_content) do
     file_content
