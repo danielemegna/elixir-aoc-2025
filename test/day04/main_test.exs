@@ -31,10 +31,9 @@ defmodule Day04.MainTest do
     assert actual == 43
   end
 
-  @tag :skip
   test "solve second part with file" do
     actual = Main.total_removable_rolls_of_paper_in(read_file_stream())
-    assert actual == -1
+    assert actual == 8946
   end
 
   def provided_example_input_stream(), do: as_file_stream(@provided_example_input)
