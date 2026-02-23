@@ -44,4 +44,35 @@ defmodule Day04.RoomMapTest do
 
   end
 
+  describe "remove paper roll" do
+
+    test "in a 3x3 map" do
+      room_map = RoomMap.new(%{
+        0 => %{0 => :empty, 1 => :empty, 2 => :empty},
+        1 => %{0 => :empty, 1 => :empty, 2 => :paper_roll},
+        2 => %{0 => :empty, 1 => :empty, 2 => :empty}
+      })
+
+      new_map = RoomMap.remove_paper_roll(room_map, {2, 1})
+
+      expected = RoomMap.new(%{
+        0 => %{0 => :empty, 1 => :empty, 2 => :empty},
+        1 => %{0 => :empty, 1 => :empty, 2 => :empty},
+        2 => %{0 => :empty, 1 => :empty, 2 => :empty}
+      })
+      assert new_map == expected
+      assert room_map == RoomMap.remove_paper_roll(room_map, {0, 1})
+    end
+
+    test "in provided example parsed map" do
+      room_map = MapParser.parse(MainTest.provided_example_input_stream())
+      assert room_map[2][6] == :paper_roll
+
+      new_map = RoomMap.remove_paper_roll(room_map, {6, 2})
+
+      assert new_map[2][6] == :empty
+    end
+
+  end
+
 end

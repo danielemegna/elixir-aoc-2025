@@ -17,6 +17,10 @@ defmodule Day04.RoomMap do
     end)
   end
 
+  def remove_paper_roll(map, {x, y}) do
+    put_in(map[y][x], :empty)
+  end
+
   defp adjacent_paper_rolls_in(map, {x, y}) do
     [
       map[y-1][x-1],
