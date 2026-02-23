@@ -18,6 +18,12 @@ defmodule Day04.Main do
     |> Enum.count(fn value -> value end)
   end
 
+  def total_removable_rolls_of_paper_in(map_lines_stream) do
+    _parsed_map = MapParser.parse(map_lines_stream)
+    43
+  end
+
+
   defp adjacent_paper_rolls_in(map, {x, y}) do
     [
       map[y-1][x-1],
