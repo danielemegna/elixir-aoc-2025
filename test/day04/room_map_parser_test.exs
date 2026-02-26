@@ -1,11 +1,11 @@
-alias Day04.MapParser
+alias Day04.RoomMapParser
 alias Day04.MainTest
 
-defmodule Day04.MapParserTest do
+defmodule Day04.RoomMapParserTest do
   use ExUnit.Case
 
   test "parse provided example map" do
-    parsed = MapParser.parse(MainTest.provided_example_input_stream())
+    parsed = RoomMapParser.parse(MainTest.provided_example_input_stream())
     assert parsed |> Map.keys() |> Enum.count() == 10
     assert parsed[0] |> Map.keys() |> Enum.count() == 10
     assert parsed[0][0] == :empty

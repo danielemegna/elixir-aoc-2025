@@ -1,5 +1,5 @@
 alias Day04.MainTest
-alias Day04.MapParser
+alias Day04.RoomMapParser
 alias Day04.RoomMap
 
 defmodule Day04.RoomMapTest do
@@ -25,7 +25,7 @@ defmodule Day04.RoomMapTest do
     end
 
     test "of provided example parsed map" do
-      room_map = MapParser.parse(MainTest.provided_example_input_stream())
+      room_map = RoomMapParser.parse(MainTest.provided_example_input_stream())
 
       actual = RoomMap.get_removable(room_map)
 
@@ -65,7 +65,7 @@ defmodule Day04.RoomMapTest do
     end
 
     test "in provided example parsed map" do
-      room_map = MapParser.parse(MainTest.provided_example_input_stream())
+      room_map = RoomMapParser.parse(MainTest.provided_example_input_stream())
       assert room_map[2][6] == :paper_roll
 
       new_map = RoomMap.remove_paper_roll(room_map, {6, 2})
