@@ -22,10 +22,9 @@ defmodule Day05.MainTest do
     assert actual == 3
   end
 
-  @tag :skip
   test "solve first part with file" do
     actual = Main.fresh_ingredients_count(read_file_stream())
-    assert actual == -1
+    assert actual == 520
   end
 
   def provided_example_input_stream(), do: as_file_stream(@provided_example_input)
