@@ -3,16 +3,22 @@ alias Day05.IngredientsDatabase
 defmodule Day05.Main do
 
   def fresh_ingredients_count(file_lines_stream) do
-    {database_lines, [_ | ingredients_to_check]} = file_lines_stream
-    |> Enum.split_while(fn line -> line != "" end)
-
+    {database_lines, ingredients_to_check_lines} = split_file_lines_stream(file_lines_stream)
     ingredients_database = IngredientsDatabase.parse(database_lines)
+    ingredients_to_check = Enum.map(ingredients_to_check_lines, &String.to_integer/1)
 
     ingredients_to_check
-    |> Enum.count(fn ingredient_id_str ->
-      ingredient_id = String.to_integer(ingredient_id_str)
+    |> Enum.count(fn ingredient_id ->
       IngredientsDatabase.is_fresh(ingredients_database, ingredient_id)
     end)
+  end
+
+  defp split_file_lines_stream(lines_stream) do
+    {database_lines, rest} = lines_stream
+    |> Enum.split_while(&(&1 != ""))
+
+    [_ | ingredients_to_check] = rest
+    {database_lines, ingredients_to_check}
   end
 
 end
