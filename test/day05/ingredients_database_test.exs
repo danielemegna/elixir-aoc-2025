@@ -38,4 +38,17 @@ defmodule Day05.IngredientsDatabaseTest do
     assert IngredientsDatabase.is_fresh(database, 32) == false
   end
 
+  test "fresh ids count on small database" do
+    database = [
+      {3, 5},
+      {10, 14},
+      {12, 18},
+      {16, 20},
+      {10, 12}, # extra element
+      {18, 20}, # extra element
+    ]
+
+    assert IngredientsDatabase.fresh_ids_count(database) == 14
+  end
+
 end
