@@ -13,6 +13,12 @@ defmodule Day05.Main do
     end)
   end
 
+  def total_fresh_ingredients_in_database(file_lines_stream) do
+    {database_lines, _} = split_file_lines_stream(file_lines_stream)
+    _ingredients_database = IngredientsDatabase.parse(database_lines)
+    14
+  end
+
   defp split_file_lines_stream(lines_stream) do
     {database_lines, rest} = lines_stream
     |> Enum.split_while(&(&1 != ""))

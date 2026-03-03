@@ -27,6 +27,17 @@ defmodule Day05.MainTest do
     assert actual == 520
   end
 
+  test "solve second part with provided example" do
+    actual = Main.total_fresh_ingredients_in_database(provided_example_input_stream())
+    assert actual == 14
+  end
+
+  @tag :skip
+  test "solve second part with file" do
+    actual = Main.total_fresh_ingredients_in_database(read_file_stream())
+    assert actual == -1
+  end
+
   def provided_example_input_stream(), do: as_file_stream(@provided_example_input)
 
   defp as_file_stream(file_content) do
