@@ -20,15 +20,16 @@ defmodule Day05.IngredientsDatabase do
   def is_fresh([], _), do: false
 
   def fresh_ids_count(database) do
-    database
-    |> Enum.reduce({0, 0}, fn {from, to}, {counter, previous_to} ->
+    {counter, _} = database
+    |> Enum.reduce({0, -1}, fn {from, to}, {counter, previous_to} ->
       cond do
         to <= previous_to -> {counter, previous_to}
         from <= previous_to -> {counter + (to - previous_to), to}
-        true -> {counter + (to - from) + 1, to}
+        true -> {counter + (to - from + 1), to}
       end
     end)
-    |> elem(0)
+
+    counter
   end
 
 end
