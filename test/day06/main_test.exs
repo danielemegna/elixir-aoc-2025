@@ -15,10 +15,9 @@ defmodule Day06.MainTest do
     assert actual == 33210 + 490 + 4_243_455 + 401
   end
 
-  @tag :skip
   test "solve first part with file" do
     actual = Main.math_worksheet_answers_sum(read_file_stream())
-    assert actual == -1
+    assert actual == 3968933219902
   end
 
   defp as_file_stream(file_content) do
