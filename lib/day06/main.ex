@@ -2,7 +2,7 @@ alias Day06.MathWorksheet
 
 defmodule Day06.Main do
 
-  def math_worksheet_answers_sum(file_lines_stream) do
+  def math_worksheet_answers_sum(file_lines_stream, _parsing_mode) do
     file_lines_stream
     |> MathWorksheet.parse_lines()
     |> Enum.map(fn {operator, numbers} ->
