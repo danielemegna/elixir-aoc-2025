@@ -12,12 +12,12 @@ defmodule Day06.MainTest do
 
   test "solve first part with provided example" do
     actual = Main.math_worksheet_answers_sum(as_file_stream(@provided_example_input))
-    assert actual == 33210 + 490 + 4_243_455 + 401
+    assert actual == (123 * 45 * 6) + (328 + 64 + 98) + 4_243_455 + (64 + 23 + 314)
   end
 
   test "solve first part with file" do
     actual = Main.math_worksheet_answers_sum(read_file_stream())
-    assert actual == 3968933219902
+    assert actual == 3_968_933_219_902
   end
 
   defp as_file_stream(file_content) do
