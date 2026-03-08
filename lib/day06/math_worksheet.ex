@@ -1,6 +1,6 @@
 defmodule Day06.MathWorksheet do
 
-  def parse_lines(lines) do
+  def parse_lines(lines, _mode) do
     {numbers_lines, [operators_line]} = lines |> Enum.split(-1)
 
     operators = Regex.scan(~r/\S/, operators_line)
