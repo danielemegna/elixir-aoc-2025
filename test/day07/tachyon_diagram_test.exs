@@ -17,11 +17,10 @@ defmodule Day07.TachyonDiagramTest do
     assert TachyonDiagram.consume("....^.^...^....", state([5, 8, 12], 2)) == state([5, 8, 12], 2)
   end
 
-  @tag :skip
   test "consume splitter line should produce new beams if a beam match a splitter" do
-    assert TachyonDiagram.consume("......^......", [6]) == [5, 7]
-    assert TachyonDiagram.consume("....^.^.^....", [4, 7]) == [3, 5, 7]
-    assert TachyonDiagram.consume("..^...^.....^..", [2, 6, 12]) == [1, 3, 5, 7, 11, 13]
+    assert TachyonDiagram.consume("......^......", state([6], 0)) == state([5, 7], 0 + 1)
+    assert TachyonDiagram.consume("....^.^.^....", state([4, 7], 1)) == state([3, 5, 7], 1 + 1)
+    assert TachyonDiagram.consume("..^...^.....^..", state([2, 6, 12], 2)) == state([1, 3, 5, 7, 11, 13], 2 + 3)
   end
 
   @tag :skip
