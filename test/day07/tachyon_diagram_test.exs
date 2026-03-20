@@ -11,18 +11,10 @@ defmodule Day07.TachyonDiagramTest do
   end
 
   test "consume splitter line should not change beams if no beam match any splitter" do
-    assert TachyonDiagram.consume(
-      "......^......", %BeamState{positions: [2], splits: 0}
-    ) == %BeamState{positions: [2], splits: 0}
-    assert TachyonDiagram.consume(
-      "....^.^.^....", %BeamState{positions: [1, 3], splits: 1}
-    ) == %BeamState{positions: [1, 3], splits: 1}
-    assert TachyonDiagram.consume(
-      "....^.^...^....", %BeamState{positions: [5], splits: 0}
-    ) == %BeamState{positions: [5], splits: 0}
-    assert TachyonDiagram.consume(
-      "....^.^...^....", %BeamState{positions: [5, 8, 12], splits: 2}
-    ) == %BeamState{positions: [5, 8, 12], splits: 2}
+    assert TachyonDiagram.consume("......^......", state([2], 0)) == state([2], 0)
+    assert TachyonDiagram.consume("....^.^.^....", state([1, 3], 1)) == state([1, 3], 1)
+    assert TachyonDiagram.consume("....^.^...^....", state([5], 0)) == state([5], 0)
+    assert TachyonDiagram.consume("....^.^...^....", state([5, 8, 12], 2)) == state([5, 8, 12], 2)
   end
 
   @tag :skip
@@ -37,5 +29,7 @@ defmodule Day07.TachyonDiagramTest do
     # .. some easier example
     assert TachyonDiagram.consume(".^.^.^.^.^...^.", [1, 3, 4, 5, 7, 8, 10, 11, 13]) == [0, 2, 4, 6, 8, 10, 11, 12, 14]
   end
+
+  defp state(positions, splits), do: %BeamState{positions: positions, splits: splits}
 
 end
