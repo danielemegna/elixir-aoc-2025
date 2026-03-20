@@ -12,16 +12,20 @@ defmodule Day07.TachyonDiagram do
       Regex.scan(~r/\^/, line, return: :index)
       |> Enum.map(fn [{splitter_x, _}] -> splitter_x end)
 
+
+    # TODO: update to use in accumulator
+    # new_positions = MapSet.new()
+
     beam_state.positions
     |> Enum.reduce(
       %BeamState{beam_state | positions: []},
       fn beam_position, %BeamState{} = new_state ->
         case Enum.member?(splitters, beam_position) do
           true -> %BeamState{
-            positions: new_state.positions ++ [beam_position - 1, beam_position + 1],
+            positions: Enum.uniq(new_state.positions ++ [beam_position - 1, beam_position + 1]),
             splits: new_state.splits + 1
           }
-          false -> %BeamState{new_state | positions: new_state.positions ++ [beam_position]}
+          false -> %BeamState{new_state | positions: Enum.uniq(new_state.positions ++ [beam_position])}
         end
       end)
   end

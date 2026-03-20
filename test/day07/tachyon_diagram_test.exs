@@ -23,10 +23,21 @@ defmodule Day07.TachyonDiagramTest do
     assert TachyonDiagram.consume("..^...^.....^..", state([2, 6, 12], 2)) == state([1, 3, 5, 7, 11, 13], 2 + 3)
   end
 
-  @tag :skip
   test "beams on same position should not be duplicated" do
-    # .. some easier example
-    assert TachyonDiagram.consume(".^.^.^.^.^...^.", [1, 3, 4, 5, 7, 8, 10, 11, 13]) == [0, 2, 4, 6, 8, 10, 11, 12, 14]
+    assert TachyonDiagram.consume(
+      "...^.^.^...",
+      %BeamState{positions: [3, 5, 10], splits: 2}
+    ) == %BeamState{positions: [2, 4, 6, 10], splits: 2 + 2}
+
+    assert TachyonDiagram.consume(
+      "...^.^.^...",
+      %BeamState{positions: [5, 6], splits: 1}
+    ) == %BeamState{positions: [4, 6], splits: 1 + 1}
+
+    assert TachyonDiagram.consume(
+      ".^.^.^.^.^...^.",
+      %BeamState{positions: [1, 3, 4, 5, 7, 8, 10, 11, 13], splits: 5}
+    ) == %BeamState{positions: [0, 2, 4, 6, 8, 10, 11, 12, 14], splits: 5 + 5}
   end
 
   defp state(positions, splits), do: %BeamState{positions: positions, splits: splits}
