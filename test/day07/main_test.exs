@@ -27,10 +27,9 @@ defmodule Day07.MainTest do
     assert actual == 21
   end
 
-  @tag :skip
   test "solve first part with file" do
     actual = Main.beam_split_count(read_file_stream())
-    assert actual == -1
+    assert actual == 1658
   end
 
   defp as_file_stream(file_content) do
