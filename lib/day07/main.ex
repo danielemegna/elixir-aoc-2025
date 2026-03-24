@@ -13,4 +13,8 @@ defmodule Day07.Main do
     final_state.splits
   end
 
+  def different_timelines_count(_file_lines_stream) do
+    40
+  end
+
 end

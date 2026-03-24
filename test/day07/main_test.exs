@@ -32,6 +32,17 @@ defmodule Day07.MainTest do
     assert actual == 1658
   end
 
+  test "solve second part with provided example" do
+    actual = Main.different_timelines_count(as_file_stream(@provided_example_input))
+    assert actual == 40
+  end
+
+  @tag :skip
+  test "solve second part with file" do
+    actual = Main.different_timelines_count(read_file_stream())
+    assert actual == -1
+  end
+
   defp as_file_stream(file_content) do
     file_content
     |> String.trim()
