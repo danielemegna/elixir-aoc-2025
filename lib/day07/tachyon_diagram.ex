@@ -1,6 +1,32 @@
 alias Day07.BeamState
+alias Day07.BeamStateV2
 
 defmodule Day07.TachyonDiagram do
+
+  def consume(line, nil) do
+    [_, {starting_x, _}] = Regex.run(~r/\.+(S)\.+/, line, return: :index)
+    %BeamStateV2{beams: %{starting_x => 1}, splits: 0}
+  end
+
+  def consume(line, %BeamStateV2{} = beam_state) do
+    splitters = Regex.scan(~r/\^/, line, return: :index)
+    |> Enum.map(fn [{splitter_x, _}] -> splitter_x end)
+
+    beam_state.beams
+    |> Enum.reduce(
+      %BeamStateV2{beams: %{}, splits: beam_state.splits},
+      fn {beam_position, beam_count}, %BeamStateV2{} = new_beam_state ->
+          if Enum.member?(splitters, beam_position) do
+            new_beam_state
+            |> BeamStateV2.put(beam_position-1, beam_count)
+            |> BeamStateV2.put(beam_position+1, beam_count)
+            |> BeamStateV2.increase_splits()
+          else
+            BeamStateV2.put(new_beam_state, beam_position, beam_count)
+          end
+      end
+    )
+  end
 
   def consume(line, %BeamState{positions: []}) do
     [_, {starting_x, _}] = Regex.run(~r/\.+(S)\.+/, line, return: :index)
