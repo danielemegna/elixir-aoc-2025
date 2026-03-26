@@ -3,7 +3,7 @@ alias Day07.BeamStateV2
 
 defmodule Day07.TachyonDiagram do
 
-  def consume(line, nil) do
+  def init_beam_state_from(line) do
     [_, {starting_x, _}] = Regex.run(~r/\.+(S)\.+/, line, return: :index)
     %BeamStateV2{beams: %{starting_x => 1}, splits: 0}
   end
