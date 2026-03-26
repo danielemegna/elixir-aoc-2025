@@ -1,45 +1,71 @@
 alias Day07.TachyonDiagram
-alias Day07.BeamState
+alias Day07.BeamStateV2
 
 defmodule Day07.TachyonDiagramTest do
   use ExUnit.Case
 
-  test "consume starting point line should produce the single beam" do
-    assert TachyonDiagram.consume("...S...", %BeamState{}) == %BeamState{positions: [3], splits: 0}
-    assert TachyonDiagram.consume(".......S.......", %BeamState{}) == %BeamState{positions: [7], splits: 0}
-    assert TachyonDiagram.consume("...........S...........", %BeamState{}) == %BeamState{positions: [11], splits: 0}
+  test "init beam state from starting point line" do
+    assert TachyonDiagram.init_beam_state_from("...S...") == %BeamStateV2{beams: %{3 => 1}, splits: 0}
+    assert TachyonDiagram.init_beam_state_from(".......S.......") == %BeamStateV2{beams: %{7 => 1}, splits: 0}
+    assert TachyonDiagram.init_beam_state_from("...........S...........") == %BeamStateV2{beams: %{11 => 1}, splits: 0}
   end
 
   test "consume splitter line should not change beams if no beam match any splitter" do
-    assert TachyonDiagram.consume("......^......", state([2], 0)) == state([2], 0)
-    assert TachyonDiagram.consume("....^.^.^....", state([1, 3], 1)) == state([1, 3], 1)
-    assert TachyonDiagram.consume("....^.^...^....", state([5], 0)) == state([5], 0)
-    assert TachyonDiagram.consume("....^.^...^....", state([5, 8, 12], 2)) == state([5, 8, 12], 2)
+    assert TachyonDiagram.consume(
+      "......^......",
+      %BeamStateV2{beams: %{2 => 1}, splits: 0}
+    ) == %BeamStateV2{beams: %{2 => 1}, splits: 0}
+    assert TachyonDiagram.consume(
+      "....^.^.^....",
+       %BeamStateV2{beams: %{1 => 2, 3 => 1}, splits: 1}
+    ) == %BeamStateV2{beams: %{1 => 2, 3 => 1}, splits: 1}
+    assert TachyonDiagram.consume(
+      "....^.^...^....",
+      %BeamStateV2{beams: %{5 => 3}, splits: 0}
+    ) == %BeamStateV2{beams: %{5 => 3}, splits: 0}
+    assert TachyonDiagram.consume(
+      "....^.^...^....",
+      %BeamStateV2{beams: %{5 => 1, 8 => 2, 12 => 1}, splits: 2}
+    ) == %BeamStateV2{beams: %{5 => 1, 8 => 2, 12 => 1}, splits: 2}
   end
 
   test "consume splitter line should produce new beams if a beam match a splitter" do
-    assert TachyonDiagram.consume("......^......", state([6], 0)) == state([5, 7], 0 + 1)
-    assert TachyonDiagram.consume("....^.^.^....", state([4, 7], 1)) == state([3, 5, 7], 1 + 1)
-    assert TachyonDiagram.consume("..^...^.....^..", state([2, 6, 12], 2)) == state([1, 3, 5, 7, 11, 13], 2 + 3)
+    assert TachyonDiagram.consume(
+      "......^......",
+      %BeamStateV2{beams: %{6 => 1}, splits: 0}
+    ) == %BeamStateV2{beams: %{5 => 1, 7 => 1}, splits: 0 + 1}
+
+    assert TachyonDiagram.consume(
+      "......^......",
+      %BeamStateV2{beams: %{6 => 3}, splits: 0}
+    ) == %BeamStateV2{beams: %{5 => 3, 7 => 3}, splits: 0 + 1}
+
+    assert TachyonDiagram.consume(
+      "....^.^.^....",
+      %BeamStateV2{beams: %{4 => 1, 7 => 3}, splits: 1}
+    ) == %BeamStateV2{beams: %{3 => 1, 5 => 1, 7 => 3}, splits: 1 + 1}
+
+    assert TachyonDiagram.consume(
+      "..^...^.....^..",
+      %BeamStateV2{beams: %{2 => 2, 6 => 1, 12 => 3}, splits: 2}
+    ) == %BeamStateV2{beams: %{1 => 2, 3 => 2, 5 => 1, 7 => 1, 11 => 3, 13 => 3}, splits: 2 + 3}
   end
 
-  test "beams on same position should not be duplicated" do
+  test "beams on same position should sum the value and not be duplicated" do
     assert TachyonDiagram.consume(
       "...^.^.^...",
-      %BeamState{positions: [3, 5, 10], splits: 2}
-    ) == %BeamState{positions: [2, 4, 6, 10], splits: 2 + 2}
+      %BeamStateV2{beams: %{3 => 1, 5 => 1, 10 => 1}, splits: 2}
+    ) == %BeamStateV2{beams: %{2 => 1, 4 => (1 + 1), 6 => 1, 10 => 1}, splits: 2 + 2}
 
     assert TachyonDiagram.consume(
       "...^.^.^...",
-      %BeamState{positions: [5, 6], splits: 1}
-    ) == %BeamState{positions: [4, 6], splits: 1 + 1}
+      %BeamStateV2{beams: %{5 => 2, 6 => 3}, splits: 1}
+    ) == %BeamStateV2{beams: %{4 => 2, 6 => (2 + 3)}, splits: 1 + 1}
 
     assert TachyonDiagram.consume(
       ".^.^.^.^.^...^.",
-      %BeamState{positions: [1, 3, 4, 5, 7, 8, 10, 11, 13], splits: 5}
-    ) == %BeamState{positions: [0, 2, 4, 6, 8, 10, 11, 12, 14], splits: 5 + 5}
+      %BeamStateV2{beams: %{1 => 1, 3 => 1, 4 => 1, 5 => 1, 7 => 1, 8 => 1, 10 => 1, 11 => 1, 13 => 1}, splits: 5}
+    ) == %BeamStateV2{beams: %{0 => 1, 2 => 2, 4 => 3, 6 => 2, 8 => 2, 10 => 1, 11 => 1, 12 => 1, 14 => 1}, splits: 5 + 5}
   end
-
-  defp state(positions, splits), do: %BeamState{positions: positions, splits: splits}
 
 end
