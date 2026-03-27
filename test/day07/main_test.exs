@@ -37,10 +37,9 @@ defmodule Day07.MainTest do
     assert actual == 40
   end
 
-  @tag :skip
   test "solve second part with file" do
     actual = Main.different_timelines_count(read_file_stream())
-    assert actual == -1
+    assert actual == 53916299384254
   end
 
   defp as_file_stream(file_content) do
