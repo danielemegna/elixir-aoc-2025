@@ -10,11 +10,11 @@ defmodule Day07.TachyonDiagram do
   def consume_stream(%BeamState{} = beam_state, stream) do
     stream
     |> Enum.reduce(beam_state, fn line, beam_state ->
-      consume(line, beam_state)
+      consume(beam_state, line)
     end)
   end
 
-  def consume(line, %BeamState{} = beam_state) do
+  def consume(%BeamState{} = beam_state, line) do
     splitters = Regex.scan(~r/\^/, line, return: :index)
     |> Enum.map(fn [{splitter_x, _}] -> splitter_x end)
 
