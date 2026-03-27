@@ -1,9 +1,5 @@
 alias Day07.BeamStateV2
 
-defmodule Day07.BeamState do
-  defstruct positions: [], splits: 0
-end
-
 defmodule Day07.BeamStateV2 do
   @enforce_keys [:beams, :splits]
   defstruct @enforce_keys
