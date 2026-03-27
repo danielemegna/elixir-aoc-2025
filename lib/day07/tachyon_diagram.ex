@@ -1,34 +1,34 @@
-alias Day07.BeamStateV2
+alias Day07.BeamState
 
 defmodule Day07.TachyonDiagram do
 
   def init_beam_state_from(line) do
     [_, {starting_x, _}] = Regex.run(~r/\.+(S)\.+/, line, return: :index)
-    %BeamStateV2{beams: %{starting_x => 1}, splits: 0}
+    %BeamState{beams: %{starting_x => 1}, splits: 0}
   end
 
-  def consume_stream(%BeamStateV2{} = beam_state, stream) do
+  def consume_stream(%BeamState{} = beam_state, stream) do
     stream
     |> Enum.reduce(beam_state, fn line, beam_state ->
       consume(line, beam_state)
     end)
   end
 
-  def consume(line, %BeamStateV2{} = beam_state) do
+  def consume(line, %BeamState{} = beam_state) do
     splitters = Regex.scan(~r/\^/, line, return: :index)
     |> Enum.map(fn [{splitter_x, _}] -> splitter_x end)
 
     beam_state.beams
     |> Enum.reduce(
-      %BeamStateV2{beams: %{}, splits: beam_state.splits},
-      fn {beam_position, beam_count}, %BeamStateV2{} = new_beam_state ->
+      %BeamState{beams: %{}, splits: beam_state.splits},
+      fn {beam_position, beam_count}, %BeamState{} = new_beam_state ->
           if Enum.member?(splitters, beam_position) do
             new_beam_state
-            |> BeamStateV2.put(beam_position-1, beam_count)
-            |> BeamStateV2.put(beam_position+1, beam_count)
-            |> BeamStateV2.increase_splits()
+            |> BeamState.put(beam_position-1, beam_count)
+            |> BeamState.put(beam_position+1, beam_count)
+            |> BeamState.increase_splits()
           else
-            BeamStateV2.put(new_beam_state, beam_position, beam_count)
+            BeamState.put(new_beam_state, beam_position, beam_count)
           end
       end
     )
