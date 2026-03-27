@@ -8,6 +8,13 @@ defmodule Day07.TachyonDiagram do
     %BeamStateV2{beams: %{starting_x => 1}, splits: 0}
   end
 
+  def consume_stream(%BeamStateV2{} = beam_state, stream) do
+    stream
+    |> Enum.reduce(beam_state, fn line, beam_state ->
+      consume(line, beam_state)
+    end)
+  end
+
   def consume(line, %BeamStateV2{} = beam_state) do
     splitters = Regex.scan(~r/\^/, line, return: :index)
     |> Enum.map(fn [{splitter_x, _}] -> splitter_x end)
