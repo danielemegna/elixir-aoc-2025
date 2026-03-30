@@ -24,11 +24,11 @@ defmodule Day07.TachyonDiagram do
       fn {beam_position, beam_count}, %BeamState{} = new_beam_state ->
           if Enum.member?(splitters, beam_position) do
             new_beam_state
-            |> BeamState.put(beam_position-1, beam_count)
-            |> BeamState.put(beam_position+1, beam_count)
+            |> BeamState.add_beam(beam_position-1, beam_count)
+            |> BeamState.add_beam(beam_position+1, beam_count)
             |> BeamState.increase_splits()
           else
-            BeamState.put(new_beam_state, beam_position, beam_count)
+            BeamState.add_beam(new_beam_state, beam_position, beam_count)
           end
       end
     )
