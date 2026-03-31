@@ -27,13 +27,13 @@ defmodule Day08.MainTest do
   """
 
   test "solve first part with provided example" do
-    actual = Main.three_largest_circuits_product(as_file_stream(@provided_example_input))
+    actual = Main.three_largest_circuits_product(as_file_stream(@provided_example_input), 10)
     assert actual == 5 * 4 * 2
   end
 
   @tag :skip
   test "solve first part with file" do
-    actual = Main.three_largest_circuits_product(read_file_stream())
+    actual = Main.three_largest_circuits_product(read_file_stream(), 1000)
     assert actual == -1
   end
 
