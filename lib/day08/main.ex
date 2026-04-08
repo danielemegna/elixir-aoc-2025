@@ -1,4 +1,5 @@
 alias Day08.JunctionBoxes
+alias Day08.Circuits
 
 defmodule Day08.Main do
 
@@ -36,24 +37,15 @@ defmodule Day08.Main do
 
     new_circuits = cond do
       !first_already_in_circuit and !second_already_in_circuit ->
-        [MapSet.new([first, second]) | circuits]
+        circuits |> Circuits.add_new_with(first, second)
       first_already_in_circuit == second_already_in_circuit ->
         circuits
       !first_already_in_circuit ->
-        List.update_at(circuits, second_already_in_circuit, fn circuit ->
-          MapSet.put(circuit, first)
-        end)
+        circuits |> Circuits.add_box_to(first, second_already_in_circuit)
       !second_already_in_circuit ->
-        List.update_at(circuits, first_already_in_circuit, fn circuit ->
-          MapSet.put(circuit, second)
-        end)
+        circuits |> Circuits.add_box_to(second, first_already_in_circuit)
       true -> # => first_already_in_circuit and second_already_in_circuit
-        circuits
-        |> List.update_at(first_already_in_circuit, fn first_circuit ->
-          MapSet.union(first_circuit, Enum.at(circuits, second_already_in_circuit))
-        end)
-        |> List.delete_at(second_already_in_circuit)
-
+        circuits |> Circuits.join_at(first_already_in_circuit, second_already_in_circuit)
     end
 
     create_circuits(distances_rest, new_circuits)
