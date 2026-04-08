@@ -16,9 +16,12 @@ alias Day08.JunctionBoxes
     |> Enum.sort()
 
     circuits = create_circuits(sorted_junction_boxes_distances, [], junction_boxes_to_connect)
-    IO.inspect(circuits)
 
-    40
+    circuits
+    |> Enum.map(&MapSet.size/1)
+    |> Enum.sort(:desc)
+    |> Enum.take(3)
+    |> Enum.product()
   end
 
   defp create_circuits(_, circuits, 0), do: circuits
@@ -30,7 +33,7 @@ alias Day08.JunctionBoxes
     if first_already_in_circuit != nil do
       if second_already_in_circuit != nil do
         if first_already_in_circuit == second_already_in_circuit do
-          create_circuits(distances_rest, circuits, connections_limit)
+          create_circuits(distances_rest, circuits, connections_limit - 1)
         else
           new_circuits = circuits
           |> List.update_at(first_already_in_circuit, fn first_circuit ->
