@@ -1,5 +1,6 @@
-defmodule Day08.Main do
 alias Day08.JunctionBoxes
+
+defmodule Day08.Main do
 
   def three_largest_circuits_product(file_lines_stream, junction_boxes_to_connect) do
     junction_boxes_distances = file_lines_stream
@@ -33,35 +34,29 @@ alias Day08.JunctionBoxes
     first_already_in_circuit = Enum.find_index(circuits, &(MapSet.member?(&1, first)))
     second_already_in_circuit = Enum.find_index(circuits, &(MapSet.member?(&1, second)))
 
-    if first_already_in_circuit != nil do
-      if second_already_in_circuit != nil do
-        if first_already_in_circuit == second_already_in_circuit do
-          create_circuits(distances_rest, circuits)
-        else
-          new_circuits = circuits
-          |> List.update_at(first_already_in_circuit, fn first_circuit ->
-            MapSet.union(first_circuit, Enum.at(circuits, second_already_in_circuit))
-          end)
-          |> List.delete_at(second_already_in_circuit)
-          create_circuits(distances_rest, new_circuits)
-        end
-      else
-        new_circuits = List.update_at(circuits, first_already_in_circuit, fn circuit ->
-          MapSet.put(circuit, second)
-        end)
-        create_circuits(distances_rest, new_circuits)
-      end
-    else
-      if second_already_in_circuit != nil do
-        new_circuits = List.update_at(circuits, second_already_in_circuit, fn circuit ->
+    new_circuits = cond do
+      !first_already_in_circuit and !second_already_in_circuit ->
+        [MapSet.new([first, second]) | circuits]
+      first_already_in_circuit == second_already_in_circuit ->
+        circuits
+      !first_already_in_circuit ->
+        List.update_at(circuits, second_already_in_circuit, fn circuit ->
           MapSet.put(circuit, first)
         end)
-        create_circuits(distances_rest, new_circuits)
-      else
-        new_circuits = [MapSet.new([first, second]) | circuits]
-        create_circuits(distances_rest, new_circuits)
-      end
+      !second_already_in_circuit ->
+        List.update_at(circuits, first_already_in_circuit, fn circuit ->
+          MapSet.put(circuit, second)
+        end)
+      true -> # => first_already_in_circuit and second_already_in_circuit
+        circuits
+        |> List.update_at(first_already_in_circuit, fn first_circuit ->
+          MapSet.union(first_circuit, Enum.at(circuits, second_already_in_circuit))
+        end)
+        |> List.delete_at(second_already_in_circuit)
+
     end
+
+    create_circuits(distances_rest, new_circuits)
   end
 
   defp parse_line(file_line) do
