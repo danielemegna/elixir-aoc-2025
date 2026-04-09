@@ -41,10 +41,10 @@ defmodule Day08.MainTest do
     assert actual == 216 * 117
   end
 
-  @tag :skip
+  @tag :skip # very slow test !
   test "solve second part with file" do
     actual = Main.last_connected_junction_boxes_x_product(read_file_stream())
-    assert actual == -1
+    assert actual == 8079278220
   end
 
   defp as_file_stream(file_content) do

@@ -19,8 +19,33 @@ defmodule Day08.Main do
     |> Enum.product()
   end
 
-  def last_connected_junction_boxes_x_product(_file_lines_stream) do
-    25272
+  def last_connected_junction_boxes_x_product(file_lines_stream) do
+    junction_boxes_distances = junction_boxes_distances_from(file_lines_stream)
+
+    junction_boxes_sorted_by_greater_distance =
+      junction_boxes_distances
+      |> Enum.sort(:desc)
+      |> Enum.map(fn {_distance, pair} -> pair end)
+
+    latest_pair_of_connected_boxes = first_never_appearing(junction_boxes_sorted_by_greater_distance)
+
+    latest_pair_of_connected_boxes
+    |> Enum.map(fn {x, _y, _z} -> x end)
+    |> Enum.product()
+  end
+
+  defp first_never_appearing([pair | rest]) do
+    if !both_already_present?(rest, pair) do
+      pair
+    else
+      first_never_appearing(rest)
+    end
+  end
+
+  defp both_already_present?(rest_junction_boxes, [first, second]) do
+    first_found = Enum.any?(rest_junction_boxes, fn [a, b] -> a == first || b == first end)
+    second_found = Enum.any?(rest_junction_boxes, fn [a, b] -> a == second || b == second end)
+    first_found and second_found
   end
 
   defp junction_boxes_distances_from(file_lines_stream) do
