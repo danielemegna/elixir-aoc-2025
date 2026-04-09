@@ -22,27 +22,23 @@ defmodule Day08.Main do
   def last_connected_junction_boxes_x_product(file_lines_stream) do
     junction_boxes_distances = junction_boxes_distances_from(file_lines_stream)
 
-    junction_boxes_sorted_by_greater_distance =
-      junction_boxes_distances
-      |> Enum.sort(:desc)
-      |> Enum.map(fn {_distance, pair} -> pair end)
+    junction_boxes_sorted_by_greater_distance = junction_boxes_distances
+    |> Enum.sort(:desc)
+    |> Enum.map(fn {_distance, pair} -> pair end)
 
-    latest_pair_of_connected_boxes = first_never_appearing(junction_boxes_sorted_by_greater_distance)
-
-    latest_pair_of_connected_boxes
-    |> Enum.map(fn {x, _y, _z} -> x end)
-    |> Enum.product()
+    [{x1, _y1, _z1}, {x2, _y2, _z2}] = find_last_boxes_to_connect_in(junction_boxes_sorted_by_greater_distance)
+    x1 * x2
   end
 
-  defp first_never_appearing([pair | rest]) do
-    if !both_already_present?(rest, pair) do
+  defp find_last_boxes_to_connect_in([pair | rest]) do
+    if !pair_elements_already_present?(rest, pair) do
       pair
     else
-      first_never_appearing(rest)
+      find_last_boxes_to_connect_in(rest)
     end
   end
 
-  defp both_already_present?(rest_junction_boxes, [first, second]) do
+  defp pair_elements_already_present?(rest_junction_boxes, [first, second]) do
     first_found = Enum.any?(rest_junction_boxes, fn [a, b] -> a == first || b == first end)
     second_found = Enum.any?(rest_junction_boxes, fn [a, b] -> a == second || b == second end)
     first_found and second_found
@@ -52,12 +48,11 @@ defmodule Day08.Main do
     file_lines_stream
     |> Enum.map(&parse_line(&1))
     |> Enum.reduce({[], []}, fn junction_box, {distances, computed} ->
-      new_distances =
-        computed
-        |> Enum.map(fn other ->
-          distance = JunctionBoxes.euclidean_distance(junction_box, other)
-          {distance, [junction_box, other]}
-        end)
+      new_distances = computed
+      |> Enum.map(fn other ->
+        distance = JunctionBoxes.euclidean_distance(junction_box, other)
+        {distance, [junction_box, other]}
+      end)
 
       {new_distances ++ distances, [junction_box | computed]}
     end)
