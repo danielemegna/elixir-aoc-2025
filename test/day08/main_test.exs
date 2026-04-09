@@ -36,6 +36,17 @@ defmodule Day08.MainTest do
     assert actual == 42315
   end
 
+  test "solve second part with provided example" do
+    actual = Main.last_connected_junction_boxes_x_product(as_file_stream(@provided_example_input))
+    assert actual == 216 * 117
+  end
+
+  @tag :skip
+  test "solve second part with file" do
+    actual = Main.last_connected_junction_boxes_x_product(read_file_stream())
+    assert actual == -1
+  end
+
   defp as_file_stream(file_content) do
     file_content
     |> String.trim()

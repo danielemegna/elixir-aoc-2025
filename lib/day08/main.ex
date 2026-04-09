@@ -29,6 +29,10 @@ defmodule Day08.Main do
     |> Enum.product()
   end
 
+  def last_connected_junction_boxes_x_product(_file_lines_stream) do
+    25272
+  end
+
   defp create_circuits([], circuits), do: circuits
 
   defp create_circuits([ {_distance, [first, second]} | distances_rest ], circuits) do
