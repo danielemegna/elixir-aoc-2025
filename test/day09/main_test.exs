@@ -19,10 +19,9 @@ defmodule Day09.MainTest do
     assert actual == 5 * 10
   end
 
-  @tag :skip
   test "solve first part with file" do
     actual = Main.largest_red_tiles_rectangle_with(read_file_stream())
-    assert actual == -1
+    assert actual == 4777824480
   end
 
   defp as_file_stream(file_content) do
