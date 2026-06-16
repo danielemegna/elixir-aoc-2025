@@ -24,6 +24,21 @@ $ docker run --rm -it -v $PWD:/app -w /app elixir:1.19.4-otp-28 bash
 # mix test ./test/day01
 ```
 
+### VSCode Dev Container setup
+
+VSCode can use devcontainers to be configured with the proper extensions without language specific utilities locally installed.
+
+In order to proceed, install the [related extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) (`ms-vscode-remote.remote-containers`) and reopen vscode in Dev Container mode.
+
+> the first run can take some minutes to install and setup properly container and vscode extensions
+
+If you want to open an additional bash session in the vscode container:
+
+```
+$ docker exec -it -w /workspaces/$(basename $PWD) <container-name> bash
+# mix test
+```
+
 ### asdf dev setup
 
 Install needed plugins:
