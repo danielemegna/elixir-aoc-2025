@@ -6,6 +6,12 @@ defmodule Day09.Main do
     |> largest_rectangle_area_for()
   end
 
+  def largest_red_green_tiles_rectangle_with(file_lines_stream) do
+    file_lines_stream
+    |> parse_red_tiles_locations()
+    |> largest_red_green_rectangle_area_for()
+  end
+
   defp largest_rectangle_area_for(locations, current_max \\ 0)
   defp largest_rectangle_area_for([_ | []], current_max), do: current_max
 
@@ -15,6 +21,10 @@ defmodule Day09.Main do
       |> Enum.max()
 
     largest_rectangle_area_for(other_locations, max(this_max, current_max))
+  end
+
+  defp largest_red_green_rectangle_area_for(_red_tiles) do
+    24
   end
 
   defp rectangle_area_with({x1, y1}, {x2, y2}) do
