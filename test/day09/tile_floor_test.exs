@@ -22,6 +22,14 @@ defmodule Day09.TileFloorTest do
       assert TileFloor.is_colorful(@tile_floor, {7, 3}) == true
     end
 
+    test "green tile" do
+      assert TileFloor.is_colorful(@tile_floor, {9, 1}) == true
+      assert TileFloor.is_colorful(@tile_floor, {11, 2}) == true
+      assert TileFloor.is_colorful(@tile_floor, {10, 7}) == true
+      assert TileFloor.is_colorful(@tile_floor, {4, 5}) == true
+      assert TileFloor.is_colorful(@tile_floor, {2, 4}) == true
+    end
+
   end
 
 end
