@@ -1,3 +1,5 @@
+alias Day09.TileFloor
+
 defmodule Day09.Main do
 
   def largest_red_tiles_rectangle_with(file_lines_stream) do
@@ -7,9 +9,11 @@ defmodule Day09.Main do
   end
 
   def largest_red_green_tiles_rectangle_with(file_lines_stream) do
-    file_lines_stream
+    red_tiles = file_lines_stream
     |> parse_red_tiles_locations()
-    |> largest_red_green_rectangle_area_for()
+
+    tile_floor = TileFloor.new(red_tiles)
+    largest_red_green_rectangle_area_for(tile_floor)
   end
 
   defp largest_rectangle_area_for(locations, current_max \\ 0)
@@ -23,8 +27,22 @@ defmodule Day09.Main do
     largest_rectangle_area_for(other_locations, max(this_max, current_max))
   end
 
-  defp largest_red_green_rectangle_area_for(_red_tiles) do
-    24
+  defp largest_red_green_rectangle_area_for(tile_floor) do
+    largest_red_green_rectangle_area_for(tile_floor.red_tiles, 0, tile_floor)
+  end
+
+  defp largest_red_green_rectangle_area_for([_ | []], _current_max, _tile_floor), do: 24 # use current_max instead
+  defp largest_red_green_rectangle_area_for([first_location | other_locations], current_max, tile_floor) do
+    this_max = other_locations
+      |> Enum.filter(fn other -> is_a_colorful_rectangle(first_location, other, tile_floor) end)
+      |> Enum.map(fn other -> rectangle_area_with(first_location, other) end)
+      |> Enum.max()
+
+    largest_red_green_rectangle_area_for(other_locations, max(this_max, current_max), tile_floor)
+  end
+
+  defp is_a_colorful_rectangle({x1, y1}, {x2, y2}, tile_floor) do
+    true
   end
 
   defp rectangle_area_with({x1, y1}, {x2, y2}) do
