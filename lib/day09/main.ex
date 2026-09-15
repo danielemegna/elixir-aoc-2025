@@ -31,18 +31,36 @@ defmodule Day09.Main do
     largest_red_green_rectangle_area_for(tile_floor.red_tiles, 0, tile_floor)
   end
 
-  defp largest_red_green_rectangle_area_for([_ | []], _current_max, _tile_floor), do: 24 # use current_max instead
+  defp largest_red_green_rectangle_area_for([_ | []], current_max, _tile_floor), do: current_max
   defp largest_red_green_rectangle_area_for([first_location | other_locations], current_max, tile_floor) do
     this_max = other_locations
       |> Enum.filter(fn other -> is_a_colorful_rectangle(first_location, other, tile_floor) end)
       |> Enum.map(fn other -> rectangle_area_with(first_location, other) end)
-      |> Enum.max()
+      |> Enum.max(&>=/2, fn -> 0 end)
 
     largest_red_green_rectangle_area_for(other_locations, max(this_max, current_max), tile_floor)
   end
 
   defp is_a_colorful_rectangle({x1, y1}, {x2, y2}, tile_floor) do
-    true
+    is_colorful = x1..x2
+    |> Range.to_list()
+    |> Kernel.tl()
+    |> Enum.drop(-1)
+    |> Enum.all?(fn x ->
+      TileFloor.is_colorful(tile_floor, {x, y1}) &&
+        TileFloor.is_colorful(tile_floor, {x, y2})
+    end)
+
+    is_colorful = is_colorful && y1..y2
+    |> Range.to_list()
+    |> Kernel.tl()
+    |> Enum.drop(-1)
+    |> Enum.all?(fn y ->
+      TileFloor.is_colorful(tile_floor, {x1, y}) &&
+        TileFloor.is_colorful(tile_floor, {x2, y})
+    end)
+
+    is_colorful
   end
 
   defp rectangle_area_with({x1, y1}, {x2, y2}) do
