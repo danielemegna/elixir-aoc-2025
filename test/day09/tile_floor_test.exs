@@ -12,22 +12,33 @@ defmodule Day09.TileFloorTest do
     test "non-colorful tiles" do
       assert TileFloor.is_colorful(@tile_floor, {0, 0}) == false
       assert TileFloor.is_colorful(@tile_floor, {1, 2}) == false
+      assert TileFloor.is_colorful(@tile_floor, {5, 6}) == false
+      assert TileFloor.is_colorful(@tile_floor, {5, 7}) == false
       assert TileFloor.is_colorful(@tile_floor, {12, 9}) == false
     end
 
-    test "red tiles on border" do
+    test "red tiles are colorful" do
       assert TileFloor.is_colorful(@tile_floor, {7, 1}) == true
       assert TileFloor.is_colorful(@tile_floor, {11, 1}) == true
       assert TileFloor.is_colorful(@tile_floor, {2, 3}) == true
       assert TileFloor.is_colorful(@tile_floor, {7, 3}) == true
     end
 
-    test "green tile" do
+    test "green tile on borders are colorful" do
       assert TileFloor.is_colorful(@tile_floor, {9, 1}) == true
       assert TileFloor.is_colorful(@tile_floor, {11, 2}) == true
+      assert TileFloor.is_colorful(@tile_floor, {11, 3}) == true
+      assert TileFloor.is_colorful(@tile_floor, {11, 4}) == true
       assert TileFloor.is_colorful(@tile_floor, {10, 7}) == true
+      assert TileFloor.is_colorful(@tile_floor, {3, 5}) == true
       assert TileFloor.is_colorful(@tile_floor, {4, 5}) == true
+      assert TileFloor.is_colorful(@tile_floor, {5, 5}) == true
+      assert TileFloor.is_colorful(@tile_floor, {6, 5}) == true
       assert TileFloor.is_colorful(@tile_floor, {2, 4}) == true
+    end
+
+    test "green tile inside the borders are colorful" do
+      assert TileFloor.is_colorful(@tile_floor, {9, 3}) == true
     end
 
   end
