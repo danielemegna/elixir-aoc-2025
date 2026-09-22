@@ -5,8 +5,10 @@ defmodule Day09.TileFloor do
   defstruct @enforce_keys
 
   def new(red_tiles) do
+    [first_red_tile | red_tiles_tail] = red_tiles
+
     green_tiles = red_tiles
-    |> Enum.zip(tl(red_tiles))
+    |> Enum.zip(red_tiles_tail ++ [first_red_tile])
     |> Enum.reduce([], fn {current, next}, green_tiles ->
       green_tiles_to_add = tiles_between(current, next)
       Enum.concat(green_tiles, green_tiles_to_add)

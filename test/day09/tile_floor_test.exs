@@ -43,11 +43,19 @@ defmodule Day09.TileFloorTest do
       assert TileFloor.is_on_borders(@tile_floor, {5, 5}) == true
       assert TileFloor.is_on_borders(@tile_floor, {6, 5}) == true
       assert TileFloor.is_on_borders(@tile_floor, {2, 4}) == true
+      assert TileFloor.is_on_borders(@tile_floor, {7, 2}) == true
       assert TileFloor.is_on_borders(@tile_floor, {7, 3}) == true
     end
 
     test "green tile inside the borders" do
       assert TileFloor.is_inside_borders(@tile_floor, {9, 3}) == true
+      assert TileFloor.is_inside_borders(@tile_floor, {7, 4}) == true
+      assert TileFloor.is_inside_borders(@tile_floor, {4, 4}) == true
+      assert TileFloor.is_inside_borders(@tile_floor, {4, 4}) == true
+      assert TileFloor.is_inside_borders(@tile_floor, {10, 5}) == true
+      assert TileFloor.is_inside_borders(@tile_floor, {10, 6}) == true
+    end
+
     end
 
   end
