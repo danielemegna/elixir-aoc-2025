@@ -1,25 +1,25 @@
 alias Day09.TileFloor
 
 defmodule Day09.TileFloor do
-  @enforce_keys [:red_tiles, :green_tiles]
+  @enforce_keys [:red_tiles, :green_tiles_on_borders]
   defstruct @enforce_keys
 
   def new(red_tiles) do
     [first_red_tile | red_tiles_tail] = red_tiles
 
-    green_tiles = red_tiles
+    green_tiles_on_borders = red_tiles
     |> Enum.zip(red_tiles_tail ++ [first_red_tile])
-    |> Enum.reduce([], fn {current, next}, green_tiles ->
+    |> Enum.reduce([], fn {current, next}, acc ->
       green_tiles_to_add = tiles_between(current, next)
-      Enum.concat(green_tiles, green_tiles_to_add)
+      Enum.concat(acc, green_tiles_to_add)
     end)
 
-    %TileFloor{ red_tiles: red_tiles, green_tiles: green_tiles }
+    %TileFloor{ red_tiles: red_tiles, green_tiles_on_borders: green_tiles_on_borders }
   end
 
   def is_on_borders(%TileFloor{} = floor, subject) do
     Enum.member?(floor.red_tiles, subject) ||
-      Enum.member?(floor.green_tiles, subject)
+      Enum.member?(floor.green_tiles_on_borders, subject)
   end
 
   def is_inside_borders(%TileFloor{} = floor, {x, y}) do
