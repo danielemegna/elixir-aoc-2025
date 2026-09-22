@@ -15,17 +15,12 @@ defmodule Day09.TileFloor do
     %TileFloor{ red_tiles: red_tiles, green_tiles: green_tiles }
   end
 
-  def is_colorful(%TileFloor{} = floor, subject) do
-    is_on_borders(floor, subject) ||
-        is_inside_borders(floor, subject)
-  end
-
-  defp is_on_borders(%TileFloor{} = floor, subject) do
+  def is_on_borders(%TileFloor{} = floor, subject) do
     Enum.member?(floor.red_tiles, subject) ||
       Enum.member?(floor.green_tiles, subject)
   end
 
-  defp is_inside_borders(%TileFloor{} = floor, {x, y}) do
+  def is_inside_borders(%TileFloor{} = floor, {x, y}) do
     Enum.reduce(0..y, false, fn current_y, is_inside ->
       if(is_on_borders(floor, {x, current_y})) do
         !is_inside
