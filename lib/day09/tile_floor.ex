@@ -23,13 +23,15 @@ defmodule Day09.TileFloor do
   end
 
   def is_inside_borders(%TileFloor{} = floor, {x, y}) do
-    Enum.reduce(0..y, false, fn current_y, is_inside ->
-      if(is_on_borders(floor, {x, current_y})) do
-        !is_inside
-      else
-        is_inside
+    Enum.reduce(0..y, {false, false}, fn current_y, {inside_state, previous_on_border} ->
+      is_current_on_border = is_on_borders(floor, {x, current_y})
+      new_inside_state = cond do
+        !previous_on_border && is_current_on_border -> !inside_state
+        true -> inside_state
       end
+      {new_inside_state, is_current_on_border}
     end)
+    |> elem(0)
   end
 
   defp tiles_between({x, y1}, {x, y2}) do
